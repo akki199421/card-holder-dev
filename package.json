@@ -1,0 +1,15 @@
+{
+  "name": "card-holder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "scripts": {
+    "watch": "webpack-dev-server --watch --content-base src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
