@@ -27,14 +27,18 @@ class Card{
 		this.ID = new IDGenerator().generate();
 	}
 }
+
 export default class Cards{
 	constructor(params){
 		this.cards = [];
+		this.receiverCards = [];
 		this.cardType = ['clubs','diamonds','hearts','spades'];
 		for(var i = 0; i <4; i++){
-			for(var j= 1; j<=13; j++)
-				this.cards.push(this.cardType[i]+j);
-					
+			for(var j= 1; j<=13; j++){
+				// console.log('new card',new Card(this.cardType[i]+j));
+				this.cards.push(new Card(this.cardType[i]+j));
+			}
+			this.receiverCards.push(new Card(this.cardType[i]));		
 		}
 		const {cards} = this;
 		var shuffle_card = this.shuffleArray(cards);

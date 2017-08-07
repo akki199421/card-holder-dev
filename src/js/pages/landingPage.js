@@ -11,7 +11,7 @@ export default class LandingPage extends React.Component{
 	}
 
 	handleSubmit(event){
-		hashHistory.push(`cards/${this.state.v}`);
+		hashHistory.push(`cards/${this.state.email}`);
 	}
 
 	emailChange(event){

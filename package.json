@@ -4,7 +4,9 @@
   "description": "",
   "main": "client.js",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "react-dnd": "^2.4.0",
+    "react-dnd-html5-backend": "^2.4.1"
   },
   "scripts": {
     "watch": "webpack-dev-server --watch --content-base src",
