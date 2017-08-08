@@ -34,9 +34,11 @@ export default class Cards{
 		this.receiverCards = [];
 		this.cardType = ['clubs','diamonds','hearts','spades'];
 		for(var i = 0; i <4; i++){
-			for(var j= 1; j<=13; j++){
-				// console.log('new card',new Card(this.cardType[i]+j));
-				this.cards.push(new Card(this.cardType[i]+j));
+			if(params){
+				for(var j= 1; j<=13; j++){
+					// console.log('new card',new Card(this.cardType[i]+j));
+					this.cards.push(new Card(this.cardType[i]+j));
+				}
 			}
 			this.receiverCards.push(new Card(this.cardType[i]));		
 		}

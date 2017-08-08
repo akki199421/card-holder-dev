@@ -34,4 +34,7 @@ export function moveCard(card){
 	let cardType = currentcard.value.match(/[a-zA-Z]+/g,'')[0];
 	if(cardType === card.value)
 		emitChange();	
+  else{
+    
+  }
 }

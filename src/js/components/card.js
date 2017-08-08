@@ -6,6 +6,7 @@ import { setCard } from '../misc/game';
 const cardSource = {
   beginDrag(prop) {
     setCard(prop);
+    console.log(prop);
     return {};
   },
 };
@@ -15,7 +16,6 @@ function collect(connect, monitor) {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging(),
-  
   };
 }
 
@@ -25,14 +25,19 @@ export default class Card extends React.Component{
 		super();
 		this.state = {
 			value : par.value,
-			ID: par.ID
+			ID: par.ID,
+			pos: par.pos
 		};
 	}
 	render(){
-		    const { connectDragSource } = this.props;
-
+		let pos = {};
+		pos.x = parseInt(this.state.pos/13);
+		pos.y = this.state.pos%13;
+		let cur_class= "card_" + pos.x + "_" + pos.y;
+		const { connectDragSource } = this.props;
+		const classes = cur_class + " card";
 		return connectDragSource(
-			<div class="card">Card </div>
+			<div className={classes}>Card </div>
 		);
 	}
 }

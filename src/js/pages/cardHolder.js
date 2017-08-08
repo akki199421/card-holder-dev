@@ -1,6 +1,9 @@
 import React from "react";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import axios from 'axios';
+import {hashHistory} from "react-router";
+
 
 import GameCntrl from '../misc/gameCntrl';
 import Card  from '../components/card';
@@ -14,28 +17,86 @@ export default class CardHolder extends React.Component{
 	constructor(params){
 		super(params);
 		const {email} = params.params;
-		//fetch saved state
-
-		//create new state
-		this.gameCntrl = new GameCntrl();
-		const {cards, receiverCards} =  this.gameCntrl;
+		console.log('fetchData');
+		//init state
 		this.state = {
+			email: email,
+			cards: [],
+			receiverCards: {}
+		};
+		this.gameCntrl = null;
+		//fetch saved state
+		axios({
+			method: 'post',
+			url: '/game/fetch',
+			data: {
+				email: email
+			}
+		})
+		.then((res) => {
+			console.log('res',res);
+			this.gameCntrl = new GameCntrl(res.data.cards);
+			this.init(this.gameCntrl);
+		})
+		.catch((err) => {
+			console.log('err',err,new GameCntrl());
+			this.gameCntrl = new GameCntrl();
+			this.init(this.gameCntrl);
+		});
+
+		this.reinit = this.reinit.bind(this);
+		this.logout = this.logout.bind(this);
+	}
+
+	componentDidMount(){
+		
+	}
+
+	init(data){
+		console.log('init data',data);
+		const {cards, receiverCards} =  data;
+		this.setState({
 			cards: cards,
 			receiverCards: receiverCards
-		};
+		});
 		this.observerContainer = observe(this.handleCardMove.bind(this));
-		this.logout.bind(this);
+
+	}
+
+	serialize(){
+		return {
+			email: this.state.email,
+			cards : this.state.cards
+		};
 	}
 
 	logout(){
-		console.log('logged out');
+		// data.email = this.state.email;
+		// data.cards =  this.state.cards;
+		this.observerContainer();
+		axios({
+			method: 'post',
+			url: '/game/save',
+			data : this.serialize()
+		})
+		.then((res) => {
+			console.log('res',res);
+			hashHistory.push('/');
+		})
+		.catch((err) => {
+			console.log('err',err);
+		});
+
 	}
 
 	reinit(){
-
+		this.observerContainer();
+		this.gameCntrl = new GameCntrl();
+		this.init(this.gameCntrl);
 	}
 
 	handleCardMove(card){
+
 		//card matched, find and delete it
 		this.gameCntrl.findAndDelete(card);
 		const {cards} =  this.gameCntrl;
@@ -47,19 +108,34 @@ export default class CardHolder extends React.Component{
 	}
 
 	render(){
-		console.log('render',this.state.cards);
-		const cards = this.state.cards.map((data,i) => { if (data) return <Card key={i} value={data.value} ID={data.ID} /> });
-		const receiverCards = this.state.receiverCards.map((data, i) => <ReceiverCard key={i} value={data.value} />);
+		console.log('render',typeof this.state.cards.length);
+		let leftCard = 0, gameOver = true;
+		let cards = [], receiverCards = [];
+		if(this.state.cards.length !== 0){
+			 cards = this.state.cards.map((data,i) => {
+				if (data) {
+					gameOver = false;
+					leftCard++;
+					return <Card key={i} value={data.value} ID={data.ID} pos={leftCard}/> 
+				}
+				console.log('leftCard', leftCard);
+			});
+			receiverCards = this.state.receiverCards.map((data, i) => <ReceiverCard key={i} value={data.value} pos={i}/>);
+		}
+		console.log('gameOver', gameOver)
 		return(
-			<div>
-				<button onClick={this.logout}>Logout</button> 
-				<div class="main-cards">
-					{cards}
+				<div>
+					<button onClick={this.logout}>Logout</button> 
+					<label> Leftover cards : {leftCard}</label>
+					<div class="main-cards">
+						{cards}
+					</div>
+					<div class="receiver-cards">
+					{receiverCards}
+					</div> 
+					{ gameOver ? <div className="modal"><button onClick={this.reinit}>Restart</button></div>: null}
+
 				</div>
-				<div class="receiver-cards">
-				{receiverCards}
-				</div>
-			</div>
 			);
 	}
 } 

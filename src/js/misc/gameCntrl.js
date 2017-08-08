@@ -4,11 +4,13 @@ import Cards from '../components/cards';
 export default class GameCntrl{
 	constructor(state){
 		if(state){
-			this.cards = state.cards;
+			this.cards = state;
+			console.log('loggged',this.cards,state);
+			this.receiverCards = new Cards(false).receiverCards;
 		}
 		else
 			{
-				var {cards, receiverCards} = new Cards();
+				var {cards, receiverCards} = new Cards(true);
 				this.cards = cards;
 				this.receiverCards = receiverCards;
 			}

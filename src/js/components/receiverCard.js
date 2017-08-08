@@ -26,15 +26,17 @@ export default class ReceiverCard extends React.Component{
 	constructor(par){
 		super();
 		// console.log('RecieverCards in',par);
+		let curr_class = "card_"+par.pos;
 		this.state = {
-			value : par.value
+			value : par.value,
+			curr_class
 		};
 	}
 	render(){
 		    const { connectDropTarget } = this.props;
-
+		const classes = this.state.curr_class+" card pull-bottom"
 		return connectDropTarget(
-			<div class="card">{this.state.value}</div>
+			<div className={classes}>{this.state.value}</div>
 		);
 	}
 }
