@@ -4,19 +4,8 @@ var router = express.Router();
 
 var cardsModel = require('../models/cards');
 
-//get data
 
-// router.param('email', function(req, res, next, email) {
-// 	console.log('email in',email)
-//     next();
-// });
-
-// router.get('/', function(req, res){
-// 	console.log('get email data',req.body,req.params);
-
-// });
 router.post('/fetch', function(req, res){
-	console.log('get email data',req.body,req.params);
 	cardsModel.fetchData(req.body.email, function(err, data){
 		if(err){
 			if(err.code === 404){
@@ -29,9 +18,7 @@ router.post('/fetch', function(req, res){
 
 //handle post
  router.post('/save', function(req,res){
- 	console.log('req',req,req.data,req.body);
  	cardsModel.saveData(req.body, function(err, data){
- 		console.log('back in saveData');
  		if(err){
  			if(err.code === 11000){
  				console.log('err',err);

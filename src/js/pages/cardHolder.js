@@ -9,7 +9,6 @@ import GameCntrl from '../misc/gameCntrl';
 import Card  from '../components/card';
 import ReceiverCard  from '../components/receiverCard';
 import { observe } from '../misc/game';
-// import RecieverCards from '../components/card';
 
 
 @DragDropContext(HTML5Backend)
@@ -17,7 +16,6 @@ export default class CardHolder extends React.Component{
 	constructor(params){
 		super(params);
 		const {email} = params.params;
-		console.log('fetchData');
 		//init state
 		this.state = {
 			email: email,
@@ -34,7 +32,6 @@ export default class CardHolder extends React.Component{
 			}
 		})
 		.then((res) => {
-			console.log('res',res);
 			this.gameCntrl = new GameCntrl(res.data.cards);
 			this.init(this.gameCntrl);
 		})
@@ -53,7 +50,6 @@ export default class CardHolder extends React.Component{
 	}
 
 	init(data){
-		console.log('init data',data);
 		const {cards, receiverCards} =  data;
 		this.setState({
 			cards: cards,
@@ -80,11 +76,9 @@ export default class CardHolder extends React.Component{
 			data : this.serialize()
 		})
 		.then((res) => {
-			console.log('res',res);
 			hashHistory.push('/');
 		})
 		.catch((err) => {
-			console.log('err',err);
 		});
 
 	}
@@ -108,7 +102,6 @@ export default class CardHolder extends React.Component{
 	}
 
 	render(){
-		console.log('render',typeof this.state.cards.length);
 		let leftCard = 0, gameOver = true;
 		let cards = [], receiverCards = [];
 		if(this.state.cards.length !== 0){
@@ -118,11 +111,9 @@ export default class CardHolder extends React.Component{
 					leftCard++;
 					return <Card key={i} value={data.value} ID={data.ID} pos={leftCard}/> 
 				}
-				console.log('leftCard', leftCard);
 			});
 			receiverCards = this.state.receiverCards.map((data, i) => <ReceiverCard key={i} value={data.value} pos={i}/>);
 		}
-		console.log('gameOver', gameOver)
 		return(
 				<div>
 					<button onClick={this.logout}>Logout</button> 

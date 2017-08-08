@@ -25,7 +25,6 @@ function collect(connect, monitor){
 export default class ReceiverCard extends React.Component{
 	constructor(par){
 		super();
-		// console.log('RecieverCards in',par);
 		let curr_class = "card_"+par.pos;
 		this.state = {
 			value : par.value,

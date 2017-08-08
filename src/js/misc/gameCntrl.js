@@ -5,7 +5,6 @@ export default class GameCntrl{
 	constructor(state){
 		if(state){
 			this.cards = state;
-			console.log('loggged',this.cards,state);
 			this.receiverCards = new Cards(false).receiverCards;
 		}
 		else

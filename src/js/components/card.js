@@ -6,7 +6,6 @@ import { setCard } from '../misc/game';
 const cardSource = {
   beginDrag(prop) {
     setCard(prop);
-    console.log(prop);
     return {};
   },
 };

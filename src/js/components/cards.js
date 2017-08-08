@@ -36,7 +36,6 @@ export default class Cards{
 		for(var i = 0; i <4; i++){
 			if(params){
 				for(var j= 1; j<=13; j++){
-					// console.log('new card',new Card(this.cardType[i]+j));
 					this.cards.push(new Card(this.cardType[i]+j));
 				}
 			}
@@ -44,7 +43,6 @@ export default class Cards{
 		}
 		const {cards} = this;
 		var shuffle_card = this.shuffleArray(cards);
-		console.log(shuffle_card);
 		this.state = {
 			cards
 		};
